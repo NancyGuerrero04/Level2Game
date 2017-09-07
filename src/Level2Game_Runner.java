@@ -2,8 +2,8 @@ import javax.swing.JFrame;
 
 public class Level2Game_Runner {
 	JFrame frame;
-	final int width = 800;
-	final int height = 800;
+	final static int width = 800;
+	final static int height = 800;
 	GamePanel gamepanel;
 	
 	public static void main(String[] args) {
@@ -23,5 +23,6 @@ public class Level2Game_Runner {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		gamepanel.startGame();
 		frame.addKeyListener(gamepanel);
+	
 	}
 }
