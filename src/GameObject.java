@@ -2,8 +2,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameObject {
-	int x;
-	int y;
+	int x=200;
+	int y=500;
 	int width;
 	int height;
 	boolean isAlive;
@@ -13,12 +13,11 @@ public class GameObject {
 	}
 
 	void update() {
-		x++;
+
 	}
 	
 	void draw(Graphics g){ 
-		g.setColor(Color.MAGENTA);
-		g.fillRect(x, y, 100, 100);
+		
 	}
 	
 	

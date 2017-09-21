@@ -4,12 +4,14 @@ import java.util.Random;
 
 public class ObjectManager {
 	ArrayList<GameObject> objects;
-	
+
 	private int score = 0;
-	
-	long enemyTimer = 0;
-	int enemySpawnTime = 1000;
-	
+
+	long pizzaTimer = 0;
+	long chocolateTimer = 0;
+	int pizzaSpawnTime = 3000;
+	int chocolateSpawnTime = 3000;
+
 	public ObjectManager() {
 		objects = new ArrayList<GameObject>();
 	}
@@ -23,8 +25,8 @@ public class ObjectManager {
 			GameObject o = objects.get(i);
 			o.update();
 		}
-		
-		purgeObjects();	
+
+		purgeObjects();
 	}
 
 	public void draw(Graphics g) {
@@ -42,49 +44,58 @@ public class ObjectManager {
 		}
 	}
 
-//	public void manageEnemies(){
-//		if(System.currentTimeMillis() - enemyTimer >= enemySpawnTime){
-//			addObject(new Alien(new Random().nextInt(LeagueInvaders.WIDTH), 0, 50, 50));
-//			enemyTimer = System.currentTimeMillis();
-//		}
-//	}
-//
-//	public void checkCollision() {
-//		for (int i = 0; i < objects.size(); i++) {
-//			for (int j = i + 1; j < objects.size(); j++) {
-//				GameObject o1 = objects.get(i);
-//				GameObject o2 = objects.get(j);
-//				
-//				if(o1.collisionBox.intersects(o2.collisionBox)){
-//					if((o1 instanceof Alien && o2 instanceof Projectile) ||
-//					   (o2 instanceof Alien && o1 instanceof Projectile)){
-//						score++;
-//						System.out.println(score);
-//						o1.isAlive = false;
-//						o2.isAlive = false;
-//					}
-//					else if((o1 instanceof Alien && o2 instanceof Rocketship) ||
-//							(o2 instanceof Alien && o1 instanceof Rocketship)){
-//						o1.isAlive = false;
-//						o2.isAlive = false;
-//					}
-//	
-//				}
-//			}
-//		}
-//	}
-	
-	public int getScore(){
+	public void managePiazzas() {
+
+		if (System.currentTimeMillis() - pizzaTimer >= pizzaSpawnTime) {
+			pizzaSpawnTime = new Random().nextInt(8000);
+			addObject(new Pizza(800, 600, 50, 50));
+			pizzaTimer = System.currentTimeMillis();
+		}
+	}
+
+	public void manageChocolate() {
+
+		if (System.currentTimeMillis() - chocolateTimer >= chocolateSpawnTime) {
+			chocolateSpawnTime = new Random().nextInt(8000);
+			addObject(new Chocolate(800, 600, 50, 50));
+			chocolateTimer = System.currentTimeMillis();
+		}
+	}
+
+	// public void checkCollision() {
+	// for (int i = 0; i < objects.size(); i++) {
+	// for (int j = i + 1; j < objects.size(); j++) {
+	// GameObject o1 = objects.get(i);
+	// GameObject o2 = objects.get(j);
+	//
+	// if(o1.collisionBox.intersects(o2.collisionBox)){
+	// if((o1 instanceof Alien && o2 instanceof Projectile) ||
+	// (o2 instanceof Alien && o1 instanceof Projectile)){
+	// score++;
+	// System.out.println(score);
+	// o1.isAlive = false;
+	// o2.isAlive = false;
+	// }
+	// else if((o1 instanceof Alien && o2 instanceof Rocketship) ||
+	// (o2 instanceof Alien && o1 instanceof Rocketship)){
+	// o1.isAlive = false;
+	// o2.isAlive = false;
+	// }
+	//
+	// }
+	// }
+	// }
+	// }
+
+	public int getScore() {
 		return score;
 	}
-	
-	public void setScore(int s){
+
+	public void setScore(int s) {
 		score = s;
 	}
-	
-	public void reset(){
+
+	public void reset() {
 		objects.clear();
 	}
 }
-
-

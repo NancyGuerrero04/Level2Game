@@ -12,23 +12,24 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
 	GameObject object;
+	Pug pug;
 	ObjectManager manager;
 	Font titleFont;
-	Font gameOverFont; 
+	Font gameOverFont;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	private int currentState = MENU_STATE;
-	
 
 	GamePanel() {
 		manager = new ObjectManager();
 		timer = new Timer(1000 / 60, this);
 		object = new GameObject();
+		pug = new Pug(250, 600, 50, 50);
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		gameOverFont = new Font("Arial", Font.PLAIN, 48);
-		manager.addObject(object); 
-	
+		manager.addObject(pug);
+
 	}
 
 	void updateMenuState() {
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		manager.update();
+		manager.managePiazzas();
 
 	}
 
@@ -50,7 +52,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.black);
 		g.setFont(titleFont);
 		g.drawString("Title", 330, 80);
-	
 
 	}
 
@@ -58,14 +59,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
 		manager.draw(g);
-		
 
 	}
 
 	void drawEndState(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
-		
+
 		g.setColor(Color.BLACK);
 		g.setFont(gameOverFont);
 		g.drawString("Game Over!", 250, 80);
@@ -117,9 +117,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			currentState++;
 		}
-		
+
 		if (currentState > END_STATE) {
 			currentState = MENU_STATE;
+		}
+		// Arrow Keys
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			pug.ySpeed = -5;
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			pug.ySpeed = 5;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			pug.xSpeed = -5;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			pug.xSpeed = 5;
 		}
 
 	}
@@ -128,6 +144,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("c");
+		
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			pug.ySpeed = 0;
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			pug.ySpeed = 0;
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			pug.xSpeed = 0;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			pug.xSpeed = 0;
+
+		}
+		
 
 	}
 }
