@@ -5,7 +5,7 @@ import java.util.Random;
 public class ObjectManager {
 	ArrayList<GameObject> objects;
 
-	private int score = 0;
+	int score = 0;
 
 	long pizzaTimer = 0;
 	long chocolateTimer = 0;
@@ -54,38 +54,39 @@ public class ObjectManager {
 	}
 
 	public void manageChocolate() {
-
 		if (System.currentTimeMillis() - chocolateTimer >= chocolateSpawnTime) {
 			chocolateSpawnTime = new Random().nextInt(8000);
 			addObject(new Chocolate(800, 600, 50, 50));
 			chocolateTimer = System.currentTimeMillis();
+
 		}
+
 	}
 
-	// public void checkCollision() {
-	// for (int i = 0; i < objects.size(); i++) {
-	// for (int j = i + 1; j < objects.size(); j++) {
-	// GameObject o1 = objects.get(i);
-	// GameObject o2 = objects.get(j);
-	//
-	// if(o1.collisionBox.intersects(o2.collisionBox)){
-	// if((o1 instanceof Alien && o2 instanceof Projectile) ||
-	// (o2 instanceof Alien && o1 instanceof Projectile)){
-	// score++;
-	// System.out.println(score);
-	// o1.isAlive = false;
-	// o2.isAlive = false;
-	// }
-	// else if((o1 instanceof Alien && o2 instanceof Rocketship) ||
-	// (o2 instanceof Alien && o1 instanceof Rocketship)){
-	// o1.isAlive = false;
-	// o2.isAlive = false;
-	// }
-	//
-	// }
-	// }
-	// }
-	// }
+	public void checkCollision() {
+		for (int i = 0; i < objects.size(); i++) {
+			for (int j = i + 1; j < objects.size(); j++) {
+				GameObject o1 = objects.get(i);
+				GameObject o2 = objects.get(j);
+
+				if (o1.collisionBox.intersects(o2.collisionBox)) {
+					if ((o1 instanceof Chocolate && o2 instanceof Pug)
+							|| (o2 instanceof Chocolate && o1 instanceof Pug)) {
+						o1.isAlive = false;
+						o2.isAlive = false;
+					}
+					if ((o1 instanceof Pizza && o2 instanceof Pug)
+							|| (o2 instanceof Pizza && o1 instanceof Pug)) {
+						o1.isAlive = true;
+						o2.isAlive = false;
+						score++;
+					}
+				}
+			}
+		}
+	
+	
+	}
 
 	public int getScore() {
 		return score;

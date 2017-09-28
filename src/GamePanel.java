@@ -16,10 +16,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	ObjectManager manager;
 	Font titleFont;
 	Font gameOverFont;
+	Font scoreFont; 
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	private int currentState = MENU_STATE;
+	private String score;
 
 	GamePanel() {
 		manager = new ObjectManager();
@@ -28,6 +30,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		pug = new Pug(250, 600, 50, 50);
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		gameOverFont = new Font("Arial", Font.PLAIN, 48);
+		scoreFont = new Font("Arial", Font.PLAIN, 20);
 		manager.addObject(pug);
 
 	}
@@ -39,6 +42,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void updateGameState() {
 		manager.update();
 		manager.managePiazzas();
+		manager.manageChocolate();
+		manager.checkCollision();
+		score = String.valueOf( manager.getScore() );
+		if(pug.isAlive == false){
+			currentState = END_STATE; 
+			
+		}
 
 	}
 
@@ -59,6 +69,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
 		manager.draw(g);
+		
+		g.setFont(scoreFont);
+		g.drawString("Score: " + score, 600 , 80);
 
 	}
 
@@ -69,6 +82,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.setFont(gameOverFont);
 		g.drawString("Game Over!", 250, 80);
+		
+		g.setFont(scoreFont);
+		g.drawString("Score: " + score, 350 , 150);
+
 	}
 
 	void startGame() {
@@ -123,7 +140,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		// Arrow Keys
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			pug.ySpeed = -5;
+			pug.ySpeed = -20;
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {

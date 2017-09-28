@@ -3,6 +3,7 @@ import java.awt.Graphics;
 
 public class Chocolate extends GameObject{
 	Chocolate(int x, int y, int width, int height){
+		super();
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -10,6 +11,7 @@ public class Chocolate extends GameObject{
 	}
 
 	void update(){
+		super.update();
 		x--;
 	}
 	
