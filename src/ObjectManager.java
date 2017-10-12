@@ -11,6 +11,9 @@ public class ObjectManager {
 	long chocolateTimer = 0;
 	int pizzaSpawnTime = 3000;
 	int chocolateSpawnTime = 3000;
+	int chocolateMaxSpawnTime = 20000; 
+	int pizzaMaxSpawnTime = 20000;
+	int pizzaSpeed = 1; 
 
 	public ObjectManager() {
 		objects = new ArrayList<GameObject>();
@@ -47,15 +50,15 @@ public class ObjectManager {
 	public void managePiazzas() {
 
 		if (System.currentTimeMillis() - pizzaTimer >= pizzaSpawnTime) {
-			pizzaSpawnTime = new Random().nextInt(8000);
-			addObject(new Pizza(800, 600, 50, 50));
+			pizzaSpawnTime = new Random().nextInt(pizzaMaxSpawnTime);
+			addObject(new Pizza(800, 600, 50, 50, pizzaSpeed));
 			pizzaTimer = System.currentTimeMillis();
 		}
 	}
 
 	public void manageChocolate() {
 		if (System.currentTimeMillis() - chocolateTimer >= chocolateSpawnTime) {
-			chocolateSpawnTime = new Random().nextInt(8000);
+			chocolateSpawnTime = new Random().nextInt(chocolateMaxSpawnTime);
 			addObject(new Chocolate(800, 600, 50, 50));
 			chocolateTimer = System.currentTimeMillis();
 
@@ -77,9 +80,15 @@ public class ObjectManager {
 					}
 					if ((o1 instanceof Pizza && o2 instanceof Pug)
 							|| (o2 instanceof Pizza && o1 instanceof Pug)) {
-						o1.isAlive = true;
-						o2.isAlive = false;
+						if(o1 instanceof Pizza){
+							o1.isAlive = false;
+						}
+						if (o2 instanceof Pizza){
+							o2.isAlive = false;
+						}
 						score++;
+						chocolateMaxSpawnTime -= 2000; 
+						pizzaSpeed += 10; 
 					}
 				}
 			}

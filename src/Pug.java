@@ -12,7 +12,7 @@ public class Pug extends GameObject {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		xSpeed = 2; 
+		xSpeed = 0; 
 		ySpeed = 0; 
 
 	}
@@ -25,6 +25,18 @@ public class Pug extends GameObject {
 		
 		if(y >= 650 - height){
 			y = 650 - height; 
+		}
+		
+		if(x >= 750){ 
+			x = 720; 
+		}
+		
+		if(x <= 0){
+			x = 10; 
+		}
+		
+		if(y <= 0){
+			y = 10; 
 		}
 	}
 

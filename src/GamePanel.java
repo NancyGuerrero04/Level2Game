@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	ObjectManager manager;
 	Font titleFont;
 	Font gameOverFont;
-	Font scoreFont; 
+	Font scoreFont;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -27,11 +27,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager = new ObjectManager();
 		timer = new Timer(1000 / 60, this);
 		object = new GameObject();
-		pug = new Pug(250, 600, 50, 50);
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		gameOverFont = new Font("Arial", Font.PLAIN, 48);
 		scoreFont = new Font("Arial", Font.PLAIN, 20);
-		manager.addObject(pug);
 
 	}
 
@@ -44,10 +42,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.managePiazzas();
 		manager.manageChocolate();
 		manager.checkCollision();
-		score = String.valueOf( manager.getScore() );
-		if(pug.isAlive == false){
-			currentState = END_STATE; 
-			
+		score = String.valueOf(manager.getScore());
+		if (pug.isAlive == false) {
+			currentState = END_STATE;
+
 		}
 
 	}
@@ -69,9 +67,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
 		manager.draw(g);
-		
+
 		g.setFont(scoreFont);
-		g.drawString("Score: " + score, 600 , 80);
+		g.drawString("Score: " + score, 600, 80);
 
 	}
 
@@ -82,9 +80,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.setFont(gameOverFont);
 		g.drawString("Game Over!", 250, 80);
-		
+
 		g.setFont(scoreFont);
-		g.drawString("Score: " + score, 350 , 150);
+		g.drawString("Score: " + score, 350, 150);
 
 	}
 
@@ -126,18 +124,37 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+	public void NewGame() {
+
+		pug = new Pug(400, 400, 50, 50);
+		manager.addObject(pug);
+
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 		System.out.println("b");
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			currentState++;
+			if (currentState == MENU_STATE) {
+				currentState++;
+				if (currentState == GAME_STATE) {
+					NewGame();
+				}
+			} else if (currentState == END_STATE) {
+				currentState = MENU_STATE;
+			}
+
+			// if(MENU_STATE > currentState){
+			// MENU_STATE = GAME_STATE;
+			// }
 		}
 
 		if (currentState > END_STATE) {
 			currentState = MENU_STATE;
 		}
+
 		// Arrow Keys
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			pug.ySpeed = -20;
@@ -146,14 +163,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			pug.ySpeed = 5;
 		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_LEFT){
-			pug.xSpeed = -5;
-		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			pug.xSpeed = 5;
-		}
+
 
 	}
 
@@ -161,7 +171,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("c");
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			pug.ySpeed = 0;
 		}
@@ -169,15 +179,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			pug.ySpeed = 0;
 		}
-
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			pug.xSpeed = 0;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			pug.xSpeed = 0;
-
-		}
-		
 
 	}
 }
