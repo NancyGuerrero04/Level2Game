@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,11 +20,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font gameOverFont;
 	Font scoreFont;
+	Font resetFont; 
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	private int currentState = MENU_STATE;
 	private String score;
+	private static BufferedImage dayImg;
+
 
 	GamePanel() {
 		manager = new ObjectManager();
@@ -30,6 +36,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		gameOverFont = new Font("Arial", Font.PLAIN, 48);
 		scoreFont = new Font("Arial", Font.PLAIN, 20);
+		resetFont = new Font("Arial", Font.PLAIN, 20);
+		
+		try {
+			dayImg = ImageIO.read(this.getClass().getResourceAsStream("day_background.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 	}
 
@@ -38,6 +53,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
+
 		manager.update();
 		manager.managePiazzas();
 		manager.manageChocolate();
@@ -59,17 +75,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
 		g.setColor(Color.black);
 		g.setFont(titleFont);
-		g.drawString("Title", 330, 80);
+		g.drawString("Title", 150, 80);
 
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
+		g.drawImage(GamePanel.dayImg, 0, 0, 800, 800, null);
+		g.setColor(Color.GREEN); // grass attempt
+		g.fillRect(0, 800, 400, 200);
+		
 		manager.draw(g);
 
 		g.setFont(scoreFont);
-		g.drawString("Score: " + score, 600, 80);
+		g.drawString("Score: " + score, 300, 80);
 
 	}
 
@@ -79,10 +97,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		g.setColor(Color.BLACK);
 		g.setFont(gameOverFont);
-		g.drawString("Game Over!", 250, 80);
+		g.drawString("Game Over!", 70, 80);
 
 		g.setFont(scoreFont);
-		g.drawString("Score: " + score, 350, 150);
+		g.drawString("Score: " + score, 150, 150);
+		
+		g.setFont(resetFont);
+		g.drawString("Press ENTER to Reset", 80, 250);
 
 	}
 
@@ -126,7 +147,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void NewGame() {
 
-		pug = new Pug(400, 400, 50, 50);
+		pug = new Pug(180, 400, 90, 90);
 		manager.addObject(pug);
 
 	}

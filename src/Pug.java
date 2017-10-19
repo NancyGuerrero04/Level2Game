@@ -1,10 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Pug extends GameObject {
 	int xSpeed;
 	int ySpeed;
 	int gravity = 1;
+	private static BufferedImage pugImg;
+
 
 	Pug(int x, int y, int width, int height) {
 		super();
@@ -14,6 +20,13 @@ public class Pug extends GameObject {
 		this.height = height;
 		xSpeed = 0; 
 		ySpeed = 0; 
+		
+		try {
+			pugImg = ImageIO.read(this.getClass().getResourceAsStream("pug.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -41,8 +54,7 @@ public class Pug extends GameObject {
 	}
 
 	void draw(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(x, y, width, height);
+		g.drawImage(Pug.pugImg, x, y, width, height, null);
 
 	}
 

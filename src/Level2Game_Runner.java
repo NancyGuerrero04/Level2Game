@@ -1,8 +1,12 @@
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Level2Game_Runner {
 	JFrame frame;
-	final static int width = 800;
+	final static int width = 400;
 	final static int height = 800;
 	GamePanel gamepanel;
 	
@@ -14,6 +18,9 @@ public class Level2Game_Runner {
 		frame = new JFrame();
 		gamepanel = new GamePanel();
 		setup();
+		
+		
+
 	}
 	
 	void setup(){
