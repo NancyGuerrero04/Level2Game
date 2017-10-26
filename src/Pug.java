@@ -36,8 +36,8 @@ public class Pug extends GameObject {
 		y += ySpeed;
 		ySpeed += gravity;
 		
-		if(y >= 650 - height){
-			y = 650 - height; 
+		if(y >= 680 - height){
+			y = 680 - height; 
 		}
 		
 		if(x >= 750){ 

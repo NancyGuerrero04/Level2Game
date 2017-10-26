@@ -20,14 +20,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font gameOverFont;
 	Font scoreFont;
-	Font resetFont; 
+	Font resetFont;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	private int currentState = MENU_STATE;
 	private String score;
 	private static BufferedImage dayImg;
-
+	private static BufferedImage nightImg;
+	int day = 1;
+	int night = 2;
+	int currentTimeOfDay;
+	int timeOfDayIncreaseScore = 2;
 
 	GamePanel() {
 		manager = new ObjectManager();
@@ -37,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		gameOverFont = new Font("Arial", Font.PLAIN, 48);
 		scoreFont = new Font("Arial", Font.PLAIN, 20);
 		resetFont = new Font("Arial", Font.PLAIN, 20);
-		
+
 		try {
 			dayImg = ImageIO.read(this.getClass().getResourceAsStream("day_background.png"));
 		} catch (IOException e) {
@@ -45,6 +49,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			e.printStackTrace();
 		}
 
+		try {
+			nightImg = ImageIO.read(this.getClass().getResourceAsStream("night.gif"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -80,14 +90,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.drawImage(GamePanel.dayImg, 0, 0, 800, 800, null);
-		g.setColor(Color.GREEN); // grass attempt
-		g.fillRect(0, 800, 400, 200);
+		if (manager.score == timeOfDayIncreaseScore) {
+			if (currentTimeOfDay == day) {
+				currentTimeOfDay = night;
+				
+			}
+
+			else if (currentTimeOfDay == night) {
+				currentTimeOfDay = day;
+				
+			}
+			timeOfDayIncreaseScore += 2; 
+		}
+		
+		if(currentTimeOfDay == day){
+			g.drawImage(dayImg, 0, 0, 192 * 5, 192 * 5, null);
+		}
+		
+		if(currentTimeOfDay == night){
+			g.drawImage(GamePanel.nightImg, -500, 0, 470 * 2, 390 * 2, null);
+		}
 		
 		manager.draw(g);
-
+		
 		g.setFont(scoreFont);
-		g.drawString("Score: " + score, 300, 80);
+		g.drawString("Score: " + score, 300, 800);
 
 	}
 
@@ -101,7 +128,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		g.setFont(scoreFont);
 		g.drawString("Score: " + score, 150, 150);
-		
+
 		g.setFont(resetFont);
 		g.drawString("Press ENTER to Reset", 80, 250);
 
@@ -146,8 +173,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void NewGame() {
-
-		pug = new Pug(180, 400, 90, 90);
+		currentTimeOfDay = day;
+		pug = new Pug(180, 440, 90, 90);
 		manager.addObject(pug);
 
 	}
@@ -184,7 +211,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			pug.ySpeed = 5;
 		}
-
 
 	}
 

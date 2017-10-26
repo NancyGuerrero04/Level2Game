@@ -15,7 +15,7 @@ public class ObjectManager {
 	int pizzaMaxSpawnTime = 20000;
 	int pizzaSpeed = 1; 
 	int chocolateSpeed =1;
-	int speedIncreaseScore = 5;
+	int speedIncreaseScore = 1;
 
 	public ObjectManager() {
 		objects = new ArrayList<GameObject>();
@@ -91,8 +91,8 @@ public class ObjectManager {
 						score++;
 						chocolateMaxSpawnTime -= 2000; 
 						if(score == speedIncreaseScore){ 
-							speedIncreaseScore += 5; 
-							chocolateSpeed+=5;
+							speedIncreaseScore += 1; 
+							chocolateSpeed+=1;
 						}
 					}
 				}
