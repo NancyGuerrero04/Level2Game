@@ -16,6 +16,7 @@ public class ObjectManager {
 	int pizzaSpeed = 1; 
 	int chocolateSpeed =1;
 	int speedIncreaseScore = 1;
+	
 
 	public ObjectManager() {
 		objects = new ArrayList<GameObject>();
@@ -56,6 +57,8 @@ public class ObjectManager {
 			addObject(new Pizza(800, 600, 70, 70, pizzaSpeed));
 			pizzaTimer = System.currentTimeMillis();
 		}
+		
+			
 	}
 
 	public void manageChocolate() {
@@ -89,10 +92,8 @@ public class ObjectManager {
 							o2.isAlive = false;
 						}
 						score++;
-						chocolateMaxSpawnTime -= 2000; 
-						if(score == speedIncreaseScore){ 
-							speedIncreaseScore += 1; 
-							chocolateSpeed+=1;
+						 
+						
 						}
 					}
 				}
@@ -100,7 +101,7 @@ public class ObjectManager {
 		}
 	
 	
-	}
+	
 
 	public int getScore() {
 		return score;

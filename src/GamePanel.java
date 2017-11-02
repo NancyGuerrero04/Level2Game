@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font gameOverFont;
 	Font scoreFont;
 	Font resetFont;
+	Font numOfDaysFont;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -32,6 +33,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int night = 2;
 	int currentTimeOfDay;
 	int timeOfDayIncreaseScore = 2;
+	int numOfDays=1; 
+	int increaseOfDay = 2; // 2 days go by, pizza and choco speed increase 
 
 	GamePanel() {
 		manager = new ObjectManager();
@@ -41,6 +44,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		gameOverFont = new Font("Arial", Font.PLAIN, 48);
 		scoreFont = new Font("Arial", Font.PLAIN, 20);
 		resetFont = new Font("Arial", Font.PLAIN, 20);
+		numOfDaysFont = new Font("Arial", Font.PLAIN, 20);
 
 		try {
 			dayImg = ImageIO.read(this.getClass().getResourceAsStream("day_background.png"));
@@ -93,6 +97,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (manager.score == timeOfDayIncreaseScore) {
 			if (currentTimeOfDay == day) {
 				currentTimeOfDay = night;
+				numOfDays++; 
+				if(numOfDays == increaseOfDay){
+					manager.pizzaSpeed++; 
+					System.out.println("pizza faster");
+					manager.chocolateSpeed++;
+					
+
+					increaseOfDay += 2;
+				}
 				
 			}
 
@@ -101,6 +114,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 			}
 			timeOfDayIncreaseScore += 2; 
+			
 		}
 		
 		if(currentTimeOfDay == day){
@@ -113,8 +127,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		manager.draw(g);
 		
+		g.setColor(Color.YELLOW);
 		g.setFont(scoreFont);
-		g.drawString("Score: " + score, 300, 800);
+		g.drawString("Score: " + score, 300, 40);
+		
+		g.setColor(Color.YELLOW);
+		g.setFont(scoreFont);
+		g.drawString("Day: " + numOfDays, 300, 80);
 
 	}
 
@@ -173,6 +192,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void NewGame() {
+		manager.score =0; 
+		numOfDays=0; 
 		currentTimeOfDay = day;
 		pug = new Pug(180, 440, 90, 90);
 		manager.addObject(pug);

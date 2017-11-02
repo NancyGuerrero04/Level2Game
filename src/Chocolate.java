@@ -28,6 +28,7 @@ public class Chocolate extends GameObject{
 		super.update();
 		x-=xSpeed;
 		
+		
 	}
 	
 	void draw(Graphics g){
