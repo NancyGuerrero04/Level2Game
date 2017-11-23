@@ -11,8 +11,8 @@ public class ObjectManager {
 	long chocolateTimer = 0;
 	int pizzaSpawnTime = 3000;
 	int chocolateSpawnTime = 3000;
-	int chocolateMaxSpawnTime = 20000; 
-	int pizzaMaxSpawnTime = 20000;
+	int chocolateMaxSpawnTime = 5000; 
+	int pizzaMaxSpawnTime = 5000;
 	int pizzaSpeed = 1; 
 	int chocolateSpeed =1;
 	int speedIncreaseScore = 1;
@@ -53,7 +53,7 @@ public class ObjectManager {
 	public void managePiazzas() {
 
 		if (System.currentTimeMillis() - pizzaTimer >= pizzaSpawnTime) {
-			pizzaSpawnTime = new Random().nextInt(pizzaMaxSpawnTime);
+			pizzaSpawnTime = pizzaMaxSpawnTime + new Random().nextInt(2000);
 			addObject(new Pizza(800, 600, 70, 70, pizzaSpeed));
 			pizzaTimer = System.currentTimeMillis();
 		}
@@ -63,7 +63,7 @@ public class ObjectManager {
 
 	public void manageChocolate() {
 		if (System.currentTimeMillis() - chocolateTimer >= chocolateSpawnTime) {
-			chocolateSpawnTime = new Random().nextInt(chocolateMaxSpawnTime);
+			chocolateSpawnTime = chocolateMaxSpawnTime + new Random().nextInt(2000);
 			addObject(new Chocolate(800, 600, 70, 70, chocolateSpeed));
 			chocolateTimer = System.currentTimeMillis();
 
@@ -92,6 +92,8 @@ public class ObjectManager {
 							o2.isAlive = false;
 						}
 						score++;
+						pizzaMaxSpawnTime -= 100; 
+						chocolateMaxSpawnTime -= 100; 
 						 
 						
 						}

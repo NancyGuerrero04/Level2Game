@@ -32,9 +32,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int day = 1;
 	int night = 2;
 	int currentTimeOfDay;
-	int timeOfDayIncreaseScore = 2;
+	int timeOfDayIncreaseScore = 1;
 	int numOfDays=1; 
 	int increaseOfDay = 2; // 2 days go by, pizza and choco speed increase 
+	int backgroundX =0; 
+	
 
 	GamePanel() {
 		manager = new ObjectManager();
@@ -98,27 +100,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (currentTimeOfDay == day) {
 				currentTimeOfDay = night;
 				numOfDays++; 
-				if(numOfDays == increaseOfDay){
-					manager.pizzaSpeed++; 
-					System.out.println("pizza faster");
-					manager.chocolateSpeed++;
-					
-
-					increaseOfDay += 2;
-				}
 				
 			}
 
 			else if (currentTimeOfDay == night) {
 				currentTimeOfDay = day;
 				
+				manager.pizzaSpeed += 2; 
+				System.out.println("pizza faster");
+				manager.chocolateSpeed += 1;
+				
 			}
-			timeOfDayIncreaseScore += 2; 
+			timeOfDayIncreaseScore += 1; 
 			
 		}
 		
 		if(currentTimeOfDay == day){
-			g.drawImage(dayImg, 0, 0, 192 * 5, 192 * 5, null);
+			g.drawImage(dayImg, backgroundX, 0, 192 * 5, 192 * 5, null);
+			g.drawImage(dayImg, backgroundX + 192*5, 0, 192 * 5, 192 * 5, null);
+
+			backgroundX-=5;
+			if(backgroundX < -192*5){
+				backgroundX = 0; 
+				
+				
+			}
+			
 		}
 		
 		if(currentTimeOfDay == night){
