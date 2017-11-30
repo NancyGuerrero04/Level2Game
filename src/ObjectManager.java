@@ -16,6 +16,7 @@ public class ObjectManager {
 	int pizzaSpeed = 1; 
 	int chocolateSpeed =1;
 	int speedIncreaseScore = 1;
+	Pug pug; 
 	
 
 	public ObjectManager() {
@@ -54,7 +55,9 @@ public class ObjectManager {
 
 		if (System.currentTimeMillis() - pizzaTimer >= pizzaSpawnTime) {
 			pizzaSpawnTime = pizzaMaxSpawnTime + new Random().nextInt(2000);
-			addObject(new Pizza(800, 600, 70, 70, pizzaSpeed));
+			int pizzaY = new Random().nextInt(600);
+			addObject(new Pizza(800, pizzaY, 70, 70, pizzaSpeed));
+			
 			pizzaTimer = System.currentTimeMillis();
 		}
 		
@@ -64,7 +67,8 @@ public class ObjectManager {
 	public void manageChocolate() {
 		if (System.currentTimeMillis() - chocolateTimer >= chocolateSpawnTime) {
 			chocolateSpawnTime = chocolateMaxSpawnTime + new Random().nextInt(2000);
-			addObject(new Chocolate(800, 600, 70, 70, chocolateSpeed));
+			int chocolateY = new Random().nextInt(600);
+			addObject(new Chocolate(800, chocolateY, 70, 70, chocolateSpeed));
 			chocolateTimer = System.currentTimeMillis();
 
 		}
@@ -94,6 +98,8 @@ public class ObjectManager {
 						score++;
 						pizzaMaxSpawnTime -= 100; 
 						chocolateMaxSpawnTime -= 100; 
+						pug.getBigger();
+						
 						 
 						
 						}

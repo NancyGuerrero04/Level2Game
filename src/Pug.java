@@ -57,5 +57,10 @@ public class Pug extends GameObject {
 		g.drawImage(Pug.pugImg, x, y, width, height, null);
 
 	}
+	
+	void getBigger(){
+		height+=20;
+		width+=20;
+	}
 
 }
