@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font scoreFont;
 	Font resetFont;
 	Font numOfDaysFont;
+	Font instructionsTitleFont;
 	Font instructionsFont;
 	final int MENU_STATE = 0;
 	final int INSTRUCTIONS_STATE = 1;
@@ -34,7 +35,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int day = 1;
 	int night = 2;
 	int currentTimeOfDay;
-	int timeOfDayIncreaseScore = 1;
+	int timeOfDayIncreaseScore = 3;
 	int numOfDays = 1;
 	int increaseOfDay = 2; // 2 days go by, pizza and choco speed increase
 	int backgroundX = 0;
@@ -49,7 +50,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		scoreFont = new Font("Arial", Font.PLAIN, 20);
 		resetFont = new Font("Arial", Font.PLAIN, 20);
 		numOfDaysFont = new Font("Arial", Font.PLAIN, 20);
-		instructionsFont = new Font("Arial", Font.PLAIN, 20);
+		instructionsTitleFont = new Font("Arial", Font.PLAIN, 20);
+		instructionsFont = new Font("Arial", Font.PLAIN, 15);
 
 		try {
 			dayImg = ImageIO.read(this.getClass().getResourceAsStream("day_background.png"));
@@ -102,13 +104,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		g.setColor(Color.BLACK);
 		g.setFont(instructionsFont);
-		g.drawString("Press space for instructions", 75, 400);
+		g.drawString("Press space for instructions", 105, 400);
 
 	}
 
 	void drawInstructionsState(Graphics g) {
 		g.setColor(new Color(237, 238, 255));
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
+		g.setColor(Color.BLACK);
+		g.setFont(instructionsTitleFont);
+		g.drawString("✿ Instructions ✿", 120, 100);
+		g.setFont(instructionsFont);
+		g.drawString("For Doug to move, press the arrow keys!", 68, 200);
+		g.drawString("Avoid the deadly chocolates and eat", 82, 220);
+		g.drawString("Doug's favorite snack, pizza!", 95, 240);
 	}
 
 	void drawGameState(Graphics g) {
@@ -125,6 +134,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				manager.pizzaSpeed += 2;
 				System.out.println("pizza faster");
 				manager.chocolateSpeed += 1;
+				
+				// Reseting the size of pug when a new day
+				pug.width = 90;
+				pug.height = 90;
+				pug.x = 160; 
+						
+		
+
+				
 
 			}
 			timeOfDayIncreaseScore += 1;
@@ -162,15 +180,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawEndState(Graphics g) {
 		g.setColor(new Color(255, 232, 229));
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
+		
+		
+		// The drawStrings are off, not centered 
 
 		g.setColor(Color.BLACK);
-		g.setFont(gameOverFont);
+		g.setFont(instructionsTitleFont);
 		g.drawString("Game Over!", 100, 80);
 
-		g.setFont(scoreFont);
+		g.setFont(instructionsFont);
 		g.drawString("Score: " + score, 150, 150);
 
-		g.setFont(resetFont);
+		g.setFont(instructionsFont);
 		g.drawString("Press ENTER to Reset", 80, 400);
 
 	}
@@ -182,6 +203,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void paintComponent(Graphics g) {
 		if (currentState == MENU_STATE) {
 			drawMenuState(g);
+		} else if (currentState == INSTRUCTIONS_STATE) {
+			drawInstructionsState(g);
 		} else if (currentState == GAME_STATE) {
 			drawGameState(g);
 		} else if (currentState == END_STATE) {
@@ -216,13 +239,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void NewGame() {
+		manager.reset();
 		manager.score = 0;
 		numOfDays = 0;
 		currentTimeOfDay = day;
-		pug = new Pug(180, 440, 90, 90);
+		pug = new Pug(160, 440, 90, 90);
 		manager.addObject(pug);
 		manager.pug = pug;
-
+		currentState = GAME_STATE;
 	}
 
 	@Override
@@ -232,12 +256,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		System.out.println("b");
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == MENU_STATE) {
-				currentState += 2;
-				if (currentState == GAME_STATE) {
 					NewGame();
-				}
+				
 			} else if (currentState == END_STATE) {
 				currentState = MENU_STATE;
+			} else if (currentState == INSTRUCTIONS_STATE) {
+				NewGame();
 			}
 
 			// if(MENU_STATE > currentState){
@@ -245,13 +269,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// }
 
 		}
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (currentState == MENU_STATE) {
 				currentState = INSTRUCTIONS_STATE;
-				System.out.println("instructions");
+
 			}
 		}
+
 		if (currentState > END_STATE) {
 			currentState = MENU_STATE;
 		}

@@ -61,6 +61,7 @@ public class Pug extends GameObject {
 	void getBigger(){
 		height+=20;
 		width+=20;
+		x -= 10; 
 	}
 
 }
