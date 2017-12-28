@@ -9,8 +9,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+// Trying to add the song 
+import javax.swing.*;
+import java.applet.AudioClip;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
@@ -39,6 +43,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int numOfDays = 1;
 	int increaseOfDay = 2; // 2 days go by, pizza and choco speed increase
 	int backgroundX = 0;
+	
+	AudioClip sound; 
 
 	GamePanel() {
 		manager = new ObjectManager();
@@ -61,7 +67,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		try {
-			nightImg = ImageIO.read(this.getClass().getResourceAsStream("night.gif"));
+			nightImg = ImageIO.read(this.getClass().getResourceAsStream("night.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,6 +75,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+	private void playSound(String fileName) {
+		sound = JApplet.newAudioClip(getClass().getResource(fileName));
+		sound.play();
+		
+		
+	}
+	
+	private void stopSound() {
+		sound.stop();
+	}
 	void updateMenuState() {
 
 	}
@@ -105,6 +121,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.setFont(instructionsFont);
 		g.drawString("Press space for instructions", 105, 400);
+		g.drawString("Press enter to play", 135, 420);
 
 	}
 
@@ -121,6 +138,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
+		
 		if (manager.score == timeOfDayIncreaseScore) {
 			if (currentTimeOfDay == day) {
 				currentTimeOfDay = night;
@@ -145,7 +163,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				
 
 			}
-			timeOfDayIncreaseScore += 1;
+			timeOfDayIncreaseScore += 3;
 
 		}
 
@@ -162,7 +180,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		if (currentTimeOfDay == night) {
-			g.drawImage(GamePanel.nightImg, -500, 0, 470 * 2, 390 * 2, null);
+			g.drawImage(GamePanel.nightImg, backgroundX, 0, 192 * 5, 192 * 5, null);
+			g.drawImage(nightImg, backgroundX + 192* 5, 0, 192 * 5, 192 * 5, null);
+			
+			backgroundX -= 5;
+			if (backgroundX < -192 * 5) {
+				backgroundX = 0;
+
+			}
+
+			
 		}
 
 		manager.draw(g);
@@ -181,6 +208,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(new Color(255, 232, 229));
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
 		
+		stopSound();
 		
 		// The drawStrings are off, not centered 
 
@@ -247,6 +275,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.addObject(pug);
 		manager.pug = pug;
 		currentState = GAME_STATE;
+		
+		playSound("themesong.wav");
 	}
 
 	@Override
