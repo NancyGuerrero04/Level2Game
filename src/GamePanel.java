@@ -22,12 +22,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Pug pug;
 	ObjectManager manager;
 	Font titleFont;
-	Font gameOverFont;
-	Font scoreFont;
-	Font resetFont;
+	Font textFont;
+	Font scoreFont; 
 	Font numOfDaysFont;
-	Font instructionsTitleFont;
-	Font instructionsFont;
+	
+	
 	final int MENU_STATE = 0;
 	final int INSTRUCTIONS_STATE = 1;
 	final int GAME_STATE = 2;
@@ -43,6 +42,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int numOfDays = 1;
 	int increaseOfDay = 2; // 2 days go by, pizza and choco speed increase
 	int backgroundX = 0;
+	int titleFontX = 20;
+	int titleFontY = 80; 
+	int textFontX = 105; 
+	int textFontY = 400; 
 	
 	AudioClip sound; 
 
@@ -52,13 +55,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		timer = new Timer(1000 / 60, this);
 		object = new GameObject();
 		titleFont = new Font("Arial", Font.PLAIN, 26);
-		gameOverFont = new Font("Arial", Font.PLAIN, 26);
+		textFont = new Font("Arial", Font.PLAIN, 15);
 		scoreFont = new Font("Arial", Font.PLAIN, 20);
-		resetFont = new Font("Arial", Font.PLAIN, 20);
 		numOfDaysFont = new Font("Arial", Font.PLAIN, 20);
-		instructionsTitleFont = new Font("Arial", Font.PLAIN, 20);
-		instructionsFont = new Font("Arial", Font.PLAIN, 15);
-
+		
+		
 		try {
 			dayImg = ImageIO.read(this.getClass().getResourceAsStream("day_background.png"));
 		} catch (IOException e) {
@@ -114,27 +115,34 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawMenuState(Graphics g) {
 		g.setColor(new Color(237, 238, 255));
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
+		
+		//Title
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
-		g.drawString("✿  Doug's Jumping Journey  ✿", 20, 80);
+		g.drawString("✿  Doug's Jumping Journey  ✿", 23, 80);
 
+		//Text
 		g.setColor(Color.BLACK);
-		g.setFont(instructionsFont);
-		g.drawString("Press space for instructions", 105, 400);
-		g.drawString("Press enter to play", 135, 420);
+		g.setFont(textFont);
+		g.drawString("Press enter to play", 135, 400);
+		g.drawString("Press space for instructions", 115, 420);
 
 	}
 
 	void drawInstructionsState(Graphics g) {
 		g.setColor(new Color(237, 238, 255));
 		g.fillRect(0, 0, Level2Game_Runner.width, Level2Game_Runner.height);
+		
+		//Title
 		g.setColor(Color.BLACK);
-		g.setFont(instructionsTitleFont);
-		g.drawString("✿ Instructions ✿", 120, 100);
-		g.setFont(instructionsFont);
-		g.drawString("For Doug to move, press the arrow keys!", 68, 200);
-		g.drawString("Avoid the deadly chocolates and eat", 82, 220);
-		g.drawString("Doug's favorite snack, pizza!", 95, 240);
+		g.setFont(titleFont);
+		g.drawString("✿ Instructions ✿", 100, 80);
+		g.setFont(textFont);
+		
+		//Text
+		g.drawString("For Doug to move, press the arrow keys!", 95-25, 400);
+		g.drawString("Avoid the deadly chocolates and eat", 85, 420);
+		g.drawString("Doug's favorite snack, pizza!", 108, 440);
 	}
 
 	void drawGameState(Graphics g) {
@@ -179,7 +187,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		}
 
-		if (currentTimeOfDay == night) {
+		if (currentTimeOfDay == night) { 
+			System.out.println("night");
 			g.drawImage(GamePanel.nightImg, backgroundX, 0, 192 * 5, 192 * 5, null);
 			g.drawImage(nightImg, backgroundX + 192* 5, 0, 192 * 5, 192 * 5, null);
 			
@@ -262,7 +271,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
-		System.out.println("a");
+	
 
 	}
 
@@ -275,7 +284,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.addObject(pug);
 		manager.pug = pug;
 		currentState = GAME_STATE;
-		
+		timeOfDayIncreaseScore =3; // I added this line of code because after each 3 pizzas, it wasn't changing to night. The pug kept on growing, so I checked the increaseScore and I guess it would have been after 6 then 9, etc
 		playSound("themesong.wav");
 	}
 
@@ -283,7 +292,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 
-		System.out.println("b");
+		
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == MENU_STATE) {
 					NewGame();
@@ -325,7 +334,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("c");
+		
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			pug.ySpeed = 0;
