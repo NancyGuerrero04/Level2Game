@@ -88,6 +88,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private void playSound(String fileName) {
 		sound = JApplet.newAudioClip(getClass().getResource(fileName));
 		sound.play();
+		
 
 	}
 
@@ -249,18 +250,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
-		g.drawString("✿ Credits ✿", 150, 130);
+		g.drawString("✿ Credits ✿", 140, 130);
 
 		g.setFont(textFont);
-		g.drawString("Press ENTER to RESET", 135, 400);
+		g.drawString("Press ENTER to RESET", 115, 400);
 
 		g.setFont(textFont);
 		g.drawString("Inspired by Doug the Pug ", 110, 150);
 
 		g.setFont(textFont);
-		g.drawString("Follow @itsdougthepug on Instagram", 76, 400);
+		g.drawString("Follow @itsdougthepug on Instagram", 76, 420);
 
-		g.drawImage(creditsImg, 80, 100, 217, 172, null);
+		g.drawImage(creditsImg, 80, 170, 217, 172, null);
 
 	}
 
@@ -334,6 +335,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else if (currentState == END_STATE) {
 				currentState = CREDITS_STATE;
 			} else if (currentState == INSTRUCTIONS_STATE) {
+				NewGame();
 				currentState = GAME_STATE;
 			}
 		}
